@@ -1,37 +1,31 @@
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
-from .audit_home import (
-    THEME,
-    PAGE_MARGIN,
-    FONT_REGULAR,
-    FONT_BOLD,
-    KICKER_SIZE,
-    KICKER_TRACKING,
-    LABEL_SIZE,
-    LABEL_TRACKING,
-    _hex,
-    _draw_tracked_text,
-    _radial_glow,
-    _draw_cube,
+from .component import _draw_footer, _wrap, _hex, _radial_glow, _draw_header, _draw_tracked_text, _draw_cube
+from .theme import THEME
+from .const import (
+PAGE_MARGIN,
+KICKER_SIZE,
+KICKER_TRACKING,
+
+FONT_REGULAR,
+FONT_BOLD,
+
+SECTION_TITLE_SIZE,
+SECTION_TITLE_LEADING,
+SECTION_BODY_SIZE,
+SECTION_BODY_LEADING,
+
+CHART_LABEL_SIZE,
+CHART_PAD_TOP,
+CHART_PAD_BOTTOM,
+
+STAT_LABEL_SIZE,
+STAT_LABEL_TRACKING,
+STAT_VALUE_SIZE,
+
+INTERPRETATION_SIZE,
+INTERPRETATION_LEADING,
 )
-from .audit_evaluation import _draw_header, _wrap
-from .audit_analysis_result import _draw_footer
-
-SECTION_TITLE_SIZE = 22
-SECTION_TITLE_LEADING = 27
-BODY_SIZE = 10.6
-BODY_LEADING = 16
-
-CHART_LABEL_SIZE = 8.2
-CHART_PAD_TOP = 26
-CHART_PAD_BOTTOM = 22
-
-STAT_LABEL_SIZE = 8.2
-STAT_LABEL_TRACKING = 1.8
-STAT_VALUE_SIZE = 15.5
-
-INTERPRETATION_SIZE = 11
-INTERPRETATION_LEADING = 16.5
 
 
 def _draw_trend_chart(c, x, y, w, h, data):
@@ -186,13 +180,13 @@ def render_real_demand(
         "O gráfico abaixo mostra como essa procura se comportou no período "
         "analisado. A questão que importa é quanto dessa demanda chega até você."
     )
-    intro_lines = _wrap(intro, FONT_REGULAR, BODY_SIZE, width - 2 * m - 40)
+    intro_lines = _wrap(intro, FONT_REGULAR, SECTION_BODY_SIZE, width - 2 * m - 40)
     by = ty - 20
-    c.setFont(FONT_REGULAR, BODY_SIZE)
+    c.setFont(FONT_REGULAR, SECTION_BODY_SIZE)
     for line in intro_lines:
         c.setFillColorRGB(*muted)
         c.drawString(m, by, line)
-        by -= BODY_LEADING
+        by -= SECTION_BODY_LEADING
 
     chart_top = by - 24
     chart_h = 190

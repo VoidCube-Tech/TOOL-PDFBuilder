@@ -1,37 +1,35 @@
-from .audit_home import (
-    THEME,
-    PAGE_MARGIN,
-    FONT_REGULAR,
-    FONT_BOLD,
-    KICKER_SIZE,
-    KICKER_TRACKING,
-    LABEL_SIZE,
-    LABEL_TRACKING,
-    _hex,
-    _draw_tracked_text,
-    _radial_glow,
-    _draw_cube,
+from .component import _hex, _draw_tracked_text, _draw_header, _draw_footer, _wrap, _radial_glow, _draw_cube
+from .theme import THEME
+from .const import (
+PAGE_MARGIN,
+KICKER_SIZE,
+KICKER_TRACKING,
+
+LABEL_SIZE,
+LABEL_TRACKING,
+
+FONT_REGULAR,
+FONT_BOLD,
+
+SECTION_TITLE_SIZE,
+SECTION_TITLE_LEADING,
+
+COLUMN_KICKER_SIZE,
+COLUMN_KICKER_TRACKING,
+ITEM_SIZE,
+ITEM_LEADING,
+ITEM_GAP,
+
+FINDING_CATEGORY_SIZE,
+FINDING_CATEGORY_TRACKING,
+FINDING_TITLE_SIZE,
+FINDING_TITLE_LEADING,
+FINDING_BODY_SIZE,
+FINDING_BODY_LEADING,
+FINDING_IMPACT_SIZE,
+FINDING_IMPACT_LEADING 
 )
-from .audit_evaluation import _draw_header, _wrap
-from .audit_analysis_result import _draw_footer
 
-SECTION_TITLE_SIZE = 22
-SECTION_TITLE_LEADING = 27
-
-COLUMN_KICKER_SIZE = 8.6
-COLUMN_KICKER_TRACKING = 1.8
-ITEM_SIZE = 9.8
-ITEM_LEADING = 13.6
-ITEM_GAP = 9
-
-FINDING_CATEGORY_SIZE = 8.2
-FINDING_CATEGORY_TRACKING = 2.0
-FINDING_TITLE_SIZE = 18
-FINDING_TITLE_LEADING = 23
-FINDING_BODY_SIZE = 10.4
-FINDING_BODY_LEADING = 15.4
-FINDING_IMPACT_SIZE = 10.0
-FINDING_IMPACT_LEADING = 14.8
 
 
 def _draw_finding_list(c, x, y_top, w, kicker, items, accent):

@@ -1,29 +1,28 @@
 from reportlab.lib.utils import ImageReader
 
-from .audit_home import (
-    THEME,
-    PAGE_MARGIN,
-    FONT_REGULAR,
-    FONT_BOLD,
-    KICKER_SIZE,
-    KICKER_TRACKING,
-    _hex,
-    _draw_tracked_text,
-    _radial_glow,
+from .component import _draw_footer, _wrap, _hex, _radial_glow, _draw_header, _draw_tracked_text
+from .theme import THEME
+from .const import (
+PAGE_MARGIN,
+KICKER_SIZE,
+KICKER_TRACKING,
+
+FONT_REGULAR,
+FONT_BOLD,
+
+SECTION_TITLE_SIZE,
+SECTION_TITLE_LEADING,
+SECTION_BODY_SIZE,
+SECTION_BODY_LEADING,
+
+BENEFIT_TITLE_SIZE,
+BENEFIT_DESC_SIZE,
+BENEFIT_DESC_LEADING,
+
+FLOW_LABEL_SIZE,
 )
-from .audit_evaluation import _draw_header, _wrap
-from .audit_analysis_result import _draw_footer
 
-SECTION_TITLE_SIZE = 22
-SECTION_TITLE_LEADING = 27
-BODY_SIZE = 10.6
-BODY_LEADING = 16
 
-BENEFIT_TITLE_SIZE = 11.5
-BENEFIT_DESC_SIZE = 9.6
-BENEFIT_DESC_LEADING = 13.4
-
-FLOW_LABEL_SIZE = 8.4
 
 
 def _draw_device_frame(c, x, y, w, h, radius, image_path, show_dots=True):
@@ -160,13 +159,13 @@ def render_no_complication(
         c.drawString(m, ty, line)
         ty -= SECTION_TITLE_LEADING
 
-    desc_lines = _wrap(description, FONT_REGULAR, BODY_SIZE, width - 2 * m - 60)
+    desc_lines = _wrap(description, FONT_REGULAR, SECTION_BODY_SIZE, width - 2 * m - 60)
     by = ty - 18
-    c.setFont(FONT_REGULAR, BODY_SIZE)
+    c.setFont(FONT_REGULAR, SECTION_BODY_SIZE)
     for line in desc_lines:
         c.setFillColorRGB(*muted)
         c.drawString(m, by, line)
-        by -= BODY_LEADING
+        by -= SECTION_BODY_LEADING
 
     mockup_top = by - 26
     mockup_h = 200

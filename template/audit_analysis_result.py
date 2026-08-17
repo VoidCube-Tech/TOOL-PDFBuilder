@@ -1,34 +1,31 @@
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
-from .audit_home import (
-    THEME,
-    PAGE_MARGIN,
-    FONT_REGULAR,
-    FONT_BOLD,
-    KICKER_SIZE,
-    KICKER_TRACKING,
-    LABEL_SIZE,
-    LABEL_TRACKING,
-    _hex,
-    _draw_tracked_text,
-    _radial_glow,
-    _draw_cube,
+from .component import _draw_footer, _wrap, _hex, _radial_glow, _draw_header, _draw_tracked_text, _draw_cube
+from .theme import THEME
+from .const import (
+PAGE_MARGIN,
+KICKER_SIZE,
+KICKER_TRACKING,
+
+LABEL_SIZE,
+LABEL_TRACKING,
+
+FONT_REGULAR,
+FONT_BOLD,
+
+SECTION_TITLE_SIZE,
+SECTION_TITLE_LEADING,
+SECTION_BODY_SIZE,
+SECTION_BODY_LEADING,
+
+SCORE_SIZE,
+SCORE_UNIT_SIZE,
+
+CATEGORY_NAME_SIZE,
+CATEGORY_VALUE_SIZE,
+CATEGORY_ROW_H,
+CATEGORY_BAR_H
 )
-from .audit_evaluation import _draw_header, _wrap
-
-SECTION_TITLE_SIZE = 22
-SECTION_TITLE_LEADING = 27
-BODY_SIZE = 10.6
-BODY_LEADING = 16
-
-SCORE_SIZE = 52
-SCORE_UNIT_SIZE = 12.5
-
-CATEGORY_NAME_SIZE = 10.2
-CATEGORY_VALUE_SIZE = 9.6
-CATEGORY_ROW_H = 30
-CATEGORY_BAR_H = 7
-
 
 def _draw_gauge(c, cx, cy, radius, score, max_score=100):
     track = _hex(THEME["surfaceContainerHigh"])
@@ -108,35 +105,6 @@ def _draw_category_row(c, x, y, w, name, score, max_score=10):
     c.restoreState()
 
 
-def _draw_footer(c, width, company_name, page_number, total_pages=None):
-    outline = _hex(THEME["outlineVariant"])
-    muted = _hex(THEME["onSurfaceVariant"])
-    on_primary_container = _hex(THEME["onPrimaryContainer"])
-
-    footer_y = PAGE_MARGIN
-
-    c.saveState()
-    c.setStrokeColorRGB(*outline, alpha=0.5)
-    c.setLineWidth(0.6)
-    c.line(PAGE_MARGIN, footer_y + 14, width - PAGE_MARGIN, footer_y + 14)
-    c.restoreState()
-
-    _draw_tracked_text(c, PAGE_MARGIN, footer_y, "VOIDCUBE",
-                        FONT_REGULAR, LABEL_SIZE, muted, LABEL_TRACKING)
-
-    page_text = f"{page_number:02d}"
-    if total_pages:
-        page_text = f"{page_number:02d} / {total_pages:02d}"
-
-    _draw_tracked_text(c, width - PAGE_MARGIN, footer_y, page_text,
-                        FONT_REGULAR, LABEL_SIZE, on_primary_container, LABEL_TRACKING,
-                        anchor="right")
-
-    c.setFont(FONT_REGULAR, LABEL_SIZE + 1.5)
-    c.setFillColorRGB(*muted)
-    c.drawCentredString(width / 2, footer_y, company_name)
-
-
 def render_analysis_result(
     c,
     company_name: str,
@@ -205,13 +173,13 @@ def render_analysis_result(
     _draw_tracked_text(c, desc_x, panel_top - 34, "LEITURA DO RESULTADO",
                         FONT_REGULAR, LABEL_SIZE, muted, LABEL_TRACKING)
 
-    desc_lines = _wrap(score_description, FONT_REGULAR, BODY_SIZE, desc_w)
+    desc_lines = _wrap(score_description, FONT_REGULAR, SECTION_BODY_SIZE, desc_w)
     dy = panel_top - 56
-    c.setFont(FONT_REGULAR, BODY_SIZE)
+    c.setFont(FONT_REGULAR, SECTION_BODY_SIZE)
     for line in desc_lines:
         c.setFillColorRGB(*on_bg)
         c.drawString(desc_x, dy, line)
-        dy -= BODY_LEADING
+        dy -= SECTION_BODY_LEADING
 
     cube_scale = width * 0.045
     _draw_cube(c, width - m - cube_scale * 1.1, panel_top - panel_h + cube_scale * 0.9,

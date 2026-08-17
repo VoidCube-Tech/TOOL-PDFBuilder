@@ -1,49 +1,108 @@
-from .audit_home import (
-    THEME,
-    PAGE_MARGIN,
-    FONT_REGULAR,
-    FONT_BOLD,
-    KICKER_SIZE,
-    KICKER_TRACKING,
-    LABEL_SIZE,
-    LABEL_TRACKING,
-    _hex,
-    _draw_tracked_text,
-    _radial_glow,
+from .component import _hex, _wrap, _draw_tracked_text, _draw_header, _draw_footer, _radial_glow
+from .theme import THEME
+from .const import (
+PAGE_MARGIN,
+KICKER_SIZE,
+KICKER_TRACKING,
+
+BRAND_SIZE,
+BRAND_TRACKING,
+
+TITLE_SIZE,
+TITLE_LEADING,
+
+SUBTITLE_SIZE,
+SUBTITLE_LEADING,
+
+LABEL_SIZE,
+LABEL_TRACKING,
+VALUE_SIZE,
+
+FONT_REGULAR,
+FONT_BOLD,
+
+CARD_TITLE_SIZE,
+CARD_LABEL_SIZE,
+CARD_LABEL_TRACKING,
+CARD_BODY_SIZE,
+CARD_BODY_LEADING,
+
+SECTION_TITLE_SIZE,
+SECTION_TITLE_LEADING,
+SECTION_BODY_SIZE,
+SECTION_BODY_LEADING,
+
+SCORE_SIZE,
+SCORE_UNIT_SIZE,
+
+CATEGORY_NAME_SIZE,
+CATEGORY_VALUE_SIZE,
+CATEGORY_ROW_H,
+CATEGORY_BAR_H,
+
+COLUMN_KICKER_SIZE,
+COLUMN_KICKER_TRACKING,
+ITEM_SIZE,
+ITEM_LEADING,
+ITEM_GAP,
+
+FINDING_CATEGORY_SIZE,
+FINDING_CATEGORY_TRACKING,
+FINDING_TITLE_SIZE,
+FINDING_TITLE_LEADING,
+FINDING_BODY_SIZE,
+FINDING_BODY_LEADING,
+FINDING_IMPACT_SIZE,
+FINDING_IMPACT_LEADING,
+
+CTA_TEXT_SIZE,
+CTA_NOTE_SIZE,
+
+CONTACT_LABEL_SIZE,
+CONTACT_LABEL_TRACKING,
+CONTACT_VALUE_SIZE,
+
+TAGLINE_SIZE,
+
+BENEFIT_TITLE_SIZE,
+BENEFIT_DESC_SIZE,
+BENEFIT_DESC_LEADING,
+
+FLOW_LABEL_SIZE,
+
+CHART_LABEL_SIZE,
+CHART_PAD_TOP,
+CHART_PAD_BOTTOM,
+
+STAT_LABEL_SIZE,
+STAT_LABEL_TRACKING,
+STAT_VALUE_SIZE,
+
+INTERPRETATION_SIZE,
+INTERPRETATION_LEADING,
+
+RAIL_X_OFFSET,
+CONTENT_X_OFFSET,
+
+TIER_LABEL_SIZE,
+TIER_LABEL_TRACKING,
+TIER_DESC_SIZE,
+TIER_DESC_LEADING,
+
+ITEM_TITLE_SIZE,
+ITEM_TITLE_LEADING,
+ITEM_DESC_SIZE,
+ITEM_DESC_LEADING,
+ITEM_TAG_SIZE,
+
+TIER_GAP,
+ITEM_GAP,
+
+TIERS
 )
-from .audit_evaluation import _draw_header, _wrap
-from .audit_analysis_result import _draw_footer
 
-SECTION_TITLE_SIZE = 22
-SECTION_TITLE_LEADING = 27
-BODY_SIZE = 10.6
-BODY_LEADING = 16
 
-RAIL_X_OFFSET = 12
-CONTENT_X_OFFSET = 50
 
-TIER_LABEL_SIZE = 9.5
-TIER_LABEL_TRACKING = 2.0
-TIER_DESC_SIZE = 9.6
-TIER_DESC_LEADING = 13.6
-
-ITEM_TITLE_SIZE = 11
-ITEM_TITLE_LEADING = 15
-ITEM_DESC_SIZE = 9.4
-ITEM_DESC_LEADING = 13.2
-ITEM_TAG_SIZE = 8
-
-TIER_GAP = 30
-ITEM_GAP = 0
-
-TIERS = [
-    ("now", "01", "RESOLVER AGORA",
-     "Ações de impacto rápido que não deveriam esperar."),
-    ("next", "02", "PRÓXIMA ETAPA",
-     "Melhorias que valem entrar no planejamento."),
-    ("future", "03", "SEGUNDA ETAPA",
-     "Oportunidades para depois que o essencial estiver resolvido."),
-]
 
 
 def _tier_accent(index):
@@ -212,13 +271,13 @@ def render_suggested_path(
         "Nem tudo precisa ser resolvido ao mesmo tempo. Organizamos os achados "
         "da auditoria em uma ordem prática, pensada para gerar retorno o quanto antes."
     )
-    intro_lines = _wrap(intro, FONT_REGULAR, BODY_SIZE, width - 2 * m - 40)
+    intro_lines = _wrap(intro, FONT_REGULAR, SECTION_BODY_SIZE, width - 2 * m - 40)
     by = ty - 18
-    c.setFont(FONT_REGULAR, BODY_SIZE)
+    c.setFont(FONT_REGULAR, SECTION_BODY_SIZE)
     for line in intro_lines:
         c.setFillColorRGB(*muted)
         c.drawString(m, by, line)
-        by -= BODY_LEADING
+        by -= SECTION_BODY_LEADING
 
     content_x = m + CONTENT_X_OFFSET
     content_w = width - content_x - m

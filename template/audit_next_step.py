@@ -1,38 +1,33 @@
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
-from .audit_home import (
-    THEME,
-    PAGE_MARGIN,
-    FONT_REGULAR,
-    FONT_BOLD,
-    KICKER_SIZE,
-    KICKER_TRACKING,
-    BRAND_SIZE,
-    BRAND_TRACKING,
-    LABEL_SIZE,
-    LABEL_TRACKING,
-    _hex,
-    _draw_tracked_text,
-    _radial_glow,
-    _draw_cube,
+from .component import _draw_footer, _wrap, _hex, _radial_glow, _draw_header, _draw_tracked_text, _draw_cube
+from .theme import THEME
+from .const import (
+PAGE_MARGIN,
+KICKER_SIZE,
+KICKER_TRACKING,
+
+BRAND_SIZE,
+BRAND_TRACKING,
+
+FONT_REGULAR,
+FONT_BOLD,
+
+SECTION_TITLE_SIZE,
+SECTION_TITLE_LEADING,
+SECTION_BODY_SIZE,
+SECTION_BODY_LEADING,
+
+CTA_TEXT_SIZE,
+CTA_NOTE_SIZE,
+
+CONTACT_LABEL_SIZE,
+CONTACT_LABEL_TRACKING,
+CONTACT_VALUE_SIZE,
+
+TAGLINE_SIZE
 )
-from .audit_evaluation import _draw_header, _wrap
-from .audit_analysis_result import _draw_footer
-
-SECTION_TITLE_SIZE = 24
-SECTION_TITLE_LEADING = 29
-BODY_SIZE = 10.8
-BODY_LEADING = 16.5
-
-CTA_TEXT_SIZE = 15.5
-CTA_NOTE_SIZE = 9.4
-
-CONTACT_LABEL_SIZE = 7.6
-CONTACT_LABEL_TRACKING = 1.8
-CONTACT_VALUE_SIZE = 10
-
-TAGLINE_SIZE = 10
 
 
 def _measure_contact_block(label, value):
@@ -123,14 +118,14 @@ def render_next_step(
         c.drawString(center_x - lw / 2, ty, line)
         ty -= SECTION_TITLE_LEADING
 
-    desc_lines = _wrap(description, FONT_REGULAR, BODY_SIZE, width - 2 * m - 140)
+    desc_lines = _wrap(description, FONT_REGULAR, SECTION_BODY_SIZE, width - 2 * m - 140)
     by = ty - 18
-    c.setFont(FONT_REGULAR, BODY_SIZE)
+    c.setFont(FONT_REGULAR, SECTION_BODY_SIZE)
     for line in desc_lines:
-        lw = stringWidth(line, FONT_REGULAR, BODY_SIZE)
+        lw = stringWidth(line, FONT_REGULAR, SECTION_BODY_SIZE)
         c.setFillColorRGB(*muted)
         c.drawString(center_x - lw / 2, by, line)
-        by -= BODY_LEADING
+        by -= SECTION_BODY_LEADING
 
     cta_top = by - 34
     cta_w = min(width - 2 * m, 360)

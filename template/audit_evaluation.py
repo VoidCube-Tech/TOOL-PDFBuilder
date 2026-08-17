@@ -5,19 +5,6 @@ PAGE_MARGIN,
 KICKER_SIZE,
 KICKER_TRACKING,
 
-BRAND_SIZE,
-BRAND_TRACKING,
-
-TITLE_SIZE,
-TITLE_LEADING,
-
-SUBTITLE_SIZE,
-SUBTITLE_LEADING,
-
-LABEL_SIZE,
-LABEL_TRACKING,
-VALUE_SIZE,
-
 FONT_REGULAR,
 FONT_BOLD,
 
@@ -32,10 +19,6 @@ SECTION_TITLE_LEADING,
 SECTION_BODY_SIZE,
 SECTION_BODY_LEADING
 )
-
-
-
-
 
 
 
@@ -79,7 +62,7 @@ def _draw_card(c, x, y, w, h, index_label, title, body):
         by -= CARD_BODY_LEADING
 
 
-def render_evaluation(c, page_number: int = 2):
+def render_evaluation(c, company_name:str, page_number: int = 2):
     width, height = c._pagesize
     m = PAGE_MARGIN
 
@@ -188,6 +171,6 @@ def render_evaluation(c, page_number: int = 2):
         c.drawString(m, rby, line)
         rby -= SECTION_BODY_LEADING
 
-    _draw_footer(c, width, page_number)
+    _draw_footer(c, width, company_name, page_number, total_pages=4)
 
     c.showPage()

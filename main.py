@@ -25,7 +25,10 @@ def generate_pdf(
         date=data.date,
     )
 
-    render_evaluation(c)
+    render_evaluation(
+        c,
+        company_name=data.name,
+    )
     
     render_analysis_result(c,
         company_name= data.name,

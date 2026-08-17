@@ -1,6 +1,6 @@
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
-from .component import _hex, _draw_tracked_text, _radial_glow, _draw_cube
+from .component import _hex, _draw_tracked_text, _radial_glow, _draw_cube, _glow
 from .theme import THEME
 from .const import (
 PAGE_MARGIN,
@@ -49,33 +49,6 @@ def _ensure_fonts():
 
 
 # ---------------------------------------------------------------------------
-# Helpers de cor / desenho
-# ---------------------------------------------------------------------------
-
-
-
-
-def _glow(c, cx, cy, radius, color, alpha):
-    c.saveState()
-    c.setFillColorRGB(*color, alpha=alpha)
-    c.circle(cx, cy, radius, stroke=0, fill=1)
-    c.restoreState()
-
-
-def _radial_glow(c, cx, cy, max_radius, color, layer_alpha, steps=10):
-    """Aproxima um brilho radial suave empilhando círculos concêntricos
-    com alpha baixo e constante. Como as camadas se sobrepõem mais perto
-    do centro, o resultado é um degradê suave sem borda dura visível.
-    """
-    c.saveState()
-    c.setFillColorRGB(*color, alpha=layer_alpha)
-    for i in range(steps, 0, -1):
-        r = max_radius * (i / steps)
-        c.circle(cx, cy, r, stroke=0, fill=1)
-    c.restoreState()
-
-
-# ---------------------------------------------------------------------------
 # Fundo: base escura + halos de luz sutis
 # ---------------------------------------------------------------------------
 
@@ -117,80 +90,6 @@ def _draw_background(c, width, height):
 # Cubo isométrico: elemento visual principal
 # ---------------------------------------------------------------------------
 
-def _iso_point(cx, cy, ix, iy, iz, scale):
-    """Projeção isométrica simples de coordenadas (ix, iy, iz) -> (x, y)."""
-    x = cx + (ix - iz) * scale * 0.866
-    y = cy + (ix + iz) * scale * 0.5 - iy * scale
-    return x, y
-
-
-def _draw_cube(c, cx, cy, scale, theme):
-    primary = _hex(theme["primary"])
-    primary_container = _hex(theme["primaryContainer"])
-    on_primary_container = _hex(theme["onPrimaryContainer"])
-    tertiary_container = _hex(theme["tertiaryContainer"])
-
-    p = lambda ix, iy, iz: _iso_point(cx, cy, ix, iy, iz, scale)
-
-    top = [p(0, 1, 0), p(1, 1, 0), p(1, 1, 1), p(0, 1, 1)]
-    left = [p(0, 0, 0), p(0, 1, 0), p(0, 1, 1), p(0, 0, 1)]
-    right = [p(1, 0, 0), p(1, 1, 0), p(1, 1, 1), p(1, 0, 1)]
-
-    def face(points, fill_color, alpha):
-        c.saveState()
-        c.setFillColorRGB(*fill_color, alpha=alpha)
-        path = c.beginPath()
-        path.moveTo(*points[0])
-        for pt in points[1:]:
-            path.lineTo(*pt)
-        path.close()
-        c.drawPath(path, stroke=0, fill=1)
-        c.restoreState()
-
-    def edge(points, color, alpha, width):
-        c.saveState()
-        c.setStrokeColorRGB(*color, alpha=alpha)
-        c.setLineWidth(width)
-        path = c.beginPath()
-        path.moveTo(*points[0])
-        for pt in points[1:]:
-            path.lineTo(*pt)
-        path.close()
-        c.drawPath(path, stroke=1, fill=0)
-        c.restoreState()
-
-    # Sombra de contato, suave, abaixo do cubo.
-    shadow_x, shadow_y = p(0.5, 0, 0.5)
-    _glow(c, shadow_x, shadow_y - scale * 0.05, scale * 0.85, (0, 0, 0), 0.28)
-
-    face(left, primary_container, 0.55)
-    face(right, tertiary_container, 0.55)
-    face(top, primary, 0.85)
-
-    edge(top, on_primary_container, 0.9, 1.1)
-    edge(left, primary, 0.35, 0.8)
-    edge(right, primary, 0.35, 0.8)
-
-    # Núcleo luminoso saindo da face superior, sugerindo conexão /
-    # profundidade de dados dentro do cubo.
-    core_x, core_y = p(0.5, 1, 0.5)
-    _glow(c, core_x, core_y, scale * 0.55, primary, 0.16)
-    _glow(c, core_x, core_y, scale * 0.22, primary, 0.30)
-
-    # Pequenos nós conectados, saindo das arestas do topo, reforçando
-    # a ideia de rede / conexão entre pontos.
-    nodes = [p(0.15, 1, 0.85), p(0.85, 1, 0.15), p(0.5, 1, -0.05)]
-    c.saveState()
-    c.setStrokeColorRGB(*primary, alpha=0.35)
-    c.setLineWidth(0.7)
-    for nx, ny in nodes:
-        c.line(core_x, core_y, nx, ny)
-    c.restoreState()
-    for nx, ny in nodes:
-        c.saveState()
-        c.setFillColorRGB(*primary, alpha=0.75)
-        c.circle(nx, ny, 1.6, stroke=0, fill=1)
-        c.restoreState()
 
 
 def _draw_cube_scene(c, width, height):
