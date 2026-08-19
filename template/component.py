@@ -1,3 +1,6 @@
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPDF
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
@@ -221,69 +224,19 @@ def _iso_point(cx, cy, ix, iy, iz, scale):
     return x, y
 
 def _draw_cube(c, cx, cy, scale, theme):
-    primary = _hex(theme["primary"])
-    primary_container = _hex(theme["primaryContainer"])
-    on_primary_container = _hex(theme["onPrimaryContainer"])
-    tertiary_container = _hex(theme["tertiaryContainer"])
+    drawing = svg2rlg("VoidCube_ICO.svg")
 
-    p = lambda ix, iy, iz: _iso_point(cx, cy, ix, iy, iz, scale)
+    svg_width = drawing.width
+    svg_height = drawing.height
 
-    top = [p(0, 1, 0), p(1, 1, 0), p(1, 1, 1), p(0, 1, 1)]
-    left = [p(0, 0, 0), p(0, 1, 0), p(0, 1, 1), p(0, 0, 1)]
-    right = [p(1, 0, 0), p(1, 1, 0), p(1, 1, 1), p(1, 0, 1)]
+    factor = scale / svg_height
 
-    def face(points, fill_color, alpha):
-        c.saveState()
-        c.setFillColorRGB(*fill_color, alpha=alpha)
-        path = c.beginPath()
-        path.moveTo(*points[0])
-        for pt in points[1:]:
-            path.lineTo(*pt)
-        path.close()
-        c.drawPath(path, stroke=0, fill=1)
-        c.restoreState()
+    drawing.scale(factor, factor)
 
-    def edge(points, color, alpha, width):
-        c.saveState()
-        c.setStrokeColorRGB(*color, alpha=alpha)
-        c.setLineWidth(width)
-        path = c.beginPath()
-        path.moveTo(*points[0])
-        for pt in points[1:]:
-            path.lineTo(*pt)
-        path.close()
-        c.drawPath(path, stroke=1, fill=0)
-        c.restoreState()
+    width = svg_width * factor
+    height = svg_height * factor
 
-    # Sombra de contato, suave, abaixo do cubo.
-    shadow_x, shadow_y = p(0.5, 0, 0.5)
-    _glow(c, shadow_x, shadow_y - scale * 0.05, scale * 0.85, (0, 0, 0), 0.28)
+    x = cx - width / 2
+    y = cy - height / 2
 
-    face(left, primary_container, 0.55)
-    face(right, tertiary_container, 0.55)
-    face(top, primary, 0.85)
-
-    edge(top, on_primary_container, 0.9, 1.1)
-    edge(left, primary, 0.35, 0.8)
-    edge(right, primary, 0.35, 0.8)
-
-    # Núcleo luminoso saindo da face superior, sugerindo conexão /
-    # profundidade de dados dentro do cubo.
-    core_x, core_y = p(0.5, 1, 0.5)
-    _glow(c, core_x, core_y, scale * 0.55, primary, 0.16)
-    _glow(c, core_x, core_y, scale * 0.22, primary, 0.30)
-
-    # Pequenos nós conectados, saindo das arestas do topo, reforçando
-    # a ideia de rede / conexão entre pontos.
-    nodes = [p(0.15, 1, 0.85), p(0.85, 1, 0.15), p(0.5, 1, -0.05)]
-    c.saveState()
-    c.setStrokeColorRGB(*primary, alpha=0.35)
-    c.setLineWidth(0.7)
-    for nx, ny in nodes:
-        c.line(core_x, core_y, nx, ny)
-    c.restoreState()
-    for nx, ny in nodes:
-        c.saveState()
-        c.setFillColorRGB(*primary, alpha=0.75)
-        c.circle(nx, ny, 1.6, stroke=0, fill=1)
-        c.restoreState()
+    renderPDF.draw(drawing, c, x, y)

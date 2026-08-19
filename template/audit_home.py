@@ -116,7 +116,7 @@ def _draw_cube_scene(c, width, height):
     c.line(tick_x, tick_y, tick_x, tick_y - 14)
     c.restoreState()
 
-    _draw_cube(c, cx, cy, scale, THEME)
+    _draw_cube(c, cx, cy, scale + 50, THEME)
 
 
 # ---------------------------------------------------------------------------

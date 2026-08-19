@@ -92,7 +92,7 @@ def render_next_step(
     _radial_glow(c, center_x, height * 0.42, width * 0.75, primary, 0.009, steps=32)
     _radial_glow(c, center_x, height * 0.42, width * 0.32, container, 0.02, steps=22)
 
-    cube_scale = width * 0.16
+    cube_scale = width * 0.5
     c.saveState()
     c.setFillAlpha(0.22)
     _draw_cube(c, center_x, height * 0.44, cube_scale, THEME)
