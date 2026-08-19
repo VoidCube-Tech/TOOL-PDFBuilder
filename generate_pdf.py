@@ -12,10 +12,11 @@ from data import Data
 
 
 def generate_pdf(
-    data: Data
+    data: Data,
+    output_filename: str = "auditoria.pdf"
 ):
     c = canvas.Canvas(
-        "auditoria.pdf",
+        output_filename,
         pagesize=A4,
     )
 

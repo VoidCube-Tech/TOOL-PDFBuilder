@@ -1,100 +1,138 @@
-from generate_pdf import generate_pdf
+from json import load
+from pathlib import Path
+import sys
+
 from data import Data
+from generate_pdf import generate_pdf
+
+
+ROOT_DIR = Path(__file__).resolve().parent
+
+
+def _require_string(payload: dict, key: str) -> str:
+    value = payload.get(key)
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"Campo obrigatório inválido: {key}")
+    return value
+
+
+def _optional_string(payload: dict, key: str) -> str:
+    value = payload.get(key, "")
+    if value is None:
+        return ""
+    if not isinstance(value, str):
+        raise TypeError(f"Campo inválido: {key} precisa ser uma string")
+    return value
+
+
+def _validate_string_list(payload: dict, key: str) -> list[str]:
+    value = payload.get(key, [])
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        raise TypeError(f"Campo inválido: {key} precisa ser uma lista")
+    if not all(isinstance(item, str) for item in value):
+        raise TypeError(f"Campo inválido: {key} precisa conter apenas strings")
+    return value
+
+
+def _validate_object_list(payload: dict, key: str, required_fields: tuple[str, ...]) -> list[dict]:
+    value = payload.get(key, [])
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        raise TypeError(f"Campo inválido: {key} precisa ser uma lista")
+
+    validated = []
+    for index, item in enumerate(value, start=1):
+        if not isinstance(item, dict):
+            raise TypeError(f"Campo inválido: {key}[{index}] precisa ser um objeto")
+        for field in required_fields:
+            if field not in item or not isinstance(item[field], (str, int)):
+                raise ValueError(f"Campo inválido: {key}[{index}].{field}")
+        validated.append(item)
+
+    return validated
+
+
+def _validate_no_benefits(payload: dict) -> list:
+    value = payload.get("no_benefits", [])
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        raise TypeError("Campo inválido: no_benefits precisa ser uma lista")
+
+    validated = []
+    for index, item in enumerate(value, start=1):
+        if isinstance(item, str):
+            validated.append(item)
+            continue
+        if not isinstance(item, dict):
+            raise TypeError(f"Campo inválido: no_benefits[{index}] precisa ser string ou objeto")
+        for field in ("title", "description", "effort", "impact"):
+            if field not in item or not isinstance(item[field], str):
+                raise ValueError(f"Campo inválido: no_benefits[{index}].{field}")
+        validated.append(item)
+
+    return validated
+
+
+def load_json_payload(json_path: Path) -> dict:
+    if not json_path.exists():
+        available = sorted(path.name for path in ROOT_DIR.glob("*.json"))
+        suffix = f" Arquivos disponíveis: {', '.join(available)}" if available else ""
+        raise FileNotFoundError(f"JSON não encontrado: {json_path.name}.{suffix}")
+
+    with json_path.open("r", encoding="utf-8") as file:
+        payload = load(file)
+
+    if not isinstance(payload, dict):
+        raise ValueError("O JSON raiz precisa ser um objeto")
+
+    return payload
+
+
+def build_data_from_json(json_path: Path) -> Data:
+    payload = load_json_payload(json_path)
+
+    return Data(
+        name=_require_string(payload, "name"),
+        audit_description=_optional_string(payload, "audit_description"),
+        audit_categories=_validate_object_list(payload, "audit_categories", ("name", "score", "description")),
+        finding_category=_optional_string(payload, "finding_category"),
+        finding_title=_optional_string(payload, "finding_title"),
+        finding_description=_optional_string(payload, "finding_description"),
+        finding_impact=_optional_string(payload, "finding_impact"),
+        strengths=_validate_string_list(payload, "strengths"),
+        attention_points=_validate_string_list(payload, "attention_points"),
+        service_name=_optional_string(payload, "service_name"),
+        location=_optional_string(payload, "location"),
+        trend_label=_optional_string(payload, "trend_label"),
+        trend_data=_validate_object_list(payload, "trend_data", ("label", "value")),
+        demand_highlight=_optional_string(payload, "demand_highlight"),
+        interpretation=_optional_string(payload, "interpretation"),
+        now_steps=_validate_object_list(payload, "now_steps", ("title", "description", "effort", "impact")),
+        next_steps=_validate_object_list(payload, "next_steps", ("title", "description", "effort", "impact")),
+        future_steps=_validate_object_list(payload, "future_steps", ("title", "description", "effort", "impact")),
+        no_benefits=_validate_no_benefits(payload),
+    )
+
+
+def resolve_json_path() -> list[Path]:
+    if len(sys.argv) > 1:
+        candidate = Path(sys.argv[1])
+        return candidate if candidate.is_absolute() else ROOT_DIR / candidate
+
+    json_files = sorted(ROOT_DIR.glob("*.json"))
+    if len(json_files) == 1:
+        return json_files
+    if not json_files:
+        raise FileNotFoundError("Nenhum arquivo JSON encontrado na raiz")
+    raise ValueError("Passe o nome do JSON no comando. Exemplo: python main.py ola.json")
 
 
 if __name__ == "__main__":
-    data = Data(
-        name="Nasdaq",
-        audit_description= "A empresa apresenta um bom desempenho em termos de segurança cibernética",
-        audit_categories=[
-            {
-                "name": "Segurança de Rede",
-                "score": 90,
-                "description": "A empresa implementou medidas robustas de segurança de rede, incluindo firewalls e sistemas de detecção de intrusões."
-            },
-            {
-                "name": "Proteção de Dados",
-                "score": 80,
-                "description": "A empresa possui políticas de proteção de dados eficazes, garantindo a confidencialidade e integridade das informações."
-            },
-            {
-                "name": "Conformidade Regulatória",
-                "score": 75,
-                "description": "A empresa está em conformidade com as regulamentações relevantes, mas há espaço para melhorias em algumas áreas."
-            }
-        ],
-        finding_category= "Segurança de Rede",
-        finding_title= "Vulnerabilidade em Firewall",
-        finding_description= "Foi identificada uma vulnerabilidade crítica no firewall da empresa, que pode permitir acesso não autorizado à rede interna.",
-        finding_impact= "Se explorada, essa vulnerabilidade pode resultar em perda de dados sensíveis e comprometimento da infraestrutura de TI.",
-        strengths= [
-            "Implementação de firewalls robustos",
-            "Políticas de proteção de dados eficazes",
-            "Conformidade com regulamentações relevantes"
-        ],
-        attention_points= [
-            "Vulnerabilidade crítica no firewall",
-            "Necessidade de atualização de sistemas de detecção de intrusões",
-            "Revisão das políticas de segurança cibernética"
-        ],
-        service_name= "consultoria de segurança cibernética",
-        location= "São Paulo",
-        trend_label= "Tendência de busca",
-        trend_data=[
-            {"label": "Jan", "value": 120},
-            {"label": "Feb", "value": 150},
-            {"label": "Mar", "value": 180},
-            {"label": "Apr", "value": 200},
-            {"label": "May", "value": 220},
-            {"label": "Jun", "value": 250}
-        ],
-        demand_highlight= "Alta demanda",
-        interpretation= "A crescente demanda por serviços de segurança cibernética indica que as empresas estão cada vez mais conscientes da importância de proteger seus ativos digitais e estão buscando soluções especializadas para mitigar riscos e ameaças cibernéticas.",
-
-        now_steps= [
-            {
-                "title": "Realizar uma auditoria completa da infraestrutura de TI",
-                "description": "Auditoria detalhada da infraestrutura de TI para identificar pontos fracos e oportunidades de melhoria.",
-                "effort": "Alto",
-                "impact": "Alto"
-            }
-        ],
-        next_steps= [
-            {
-                "title": "Revisar e atualizar as políticas de segurança cibernética",
-                "description": "Revisão e atualização das políticas de segurança cibernética para garantir que estejam alinhadas com as melhores práticas e regulamentações.",
-                "effort": "Médio",
-                "impact": "Alto"
-            }
-        ],
-        future_steps= [
-            {
-                "title": "Investir em soluções avançadas de detecção de ameaças",
-                "description": "Investimento em tecnologias de detecção de ameaças para identificar e mitigar riscos de forma mais eficaz.",
-                "effort": "Alto",
-                "impact": "Alto"
-            }
-        ],
-
-        no_benefits= [
-            {
-                "title": "[Benefit 1]",
-                "description": "[Description 1]",
-                "effort": "Alto",
-                "impact": "Alto"
-            },
-            {
-                "title": "[Benefit 2]",
-                "description": "[Description 2]",
-                "effort": "Médio",
-                "impact": "Alto"
-            },
-            {
-                "title": "[Benefit 3]",
-                "description": "[Description 3]",
-                "effort": "Baixo",
-                "impact": "Médio"
-            }
-        ]
-    )
-    generate_pdf(data)
+    json_paths = resolve_json_path()
+    for json_path in json_paths:
+        data = build_data_from_json(json_path)
+        generate_pdf(data, output_filename=str(json_path.with_suffix(".pdf")))
