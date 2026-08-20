@@ -9,6 +9,9 @@ from generate_pdf import generate_pdf
 ROOT_DIR = Path(__file__).resolve().parent
 
 
+JSON_DIR = ROOT_DIR / "pdf"
+
+
 def _require_string(payload: dict, key: str) -> str:
     value = payload.get(key)
     if not isinstance(value, str) or not value.strip():
@@ -79,7 +82,7 @@ def _validate_no_benefits(payload: dict) -> list:
 
 def load_json_payload(json_path: Path) -> dict:
     if not json_path.exists():
-        available = sorted(path.name for path in ROOT_DIR.glob("*.json"))
+        available = sorted(path.name for path in JSON_DIR.glob("*.json"))
         suffix = f" Arquivos disponíveis: {', '.join(available)}" if available else ""
         raise FileNotFoundError(f"JSON não encontrado: {json_path.name}.{suffix}")
 
@@ -121,13 +124,13 @@ def build_data_from_json(json_path: Path) -> Data:
 def resolve_json_path() -> list[Path]:
     if len(sys.argv) > 1:
         candidate = Path(sys.argv[1])
-        return candidate if candidate.is_absolute() else ROOT_DIR / candidate
+        return [candidate if candidate.is_absolute() else JSON_DIR / candidate]
 
-    json_files = sorted(ROOT_DIR.glob("*.json"))
+    json_files = sorted(JSON_DIR.glob("*.json"))
     if len(json_files) == 1:
         return json_files
     if not json_files:
-        raise FileNotFoundError("Nenhum arquivo JSON encontrado na raiz")
+        raise FileNotFoundError("Nenhum arquivo JSON encontrado na pasta 'pdf'")
     raise ValueError("Passe o nome do JSON no comando. Exemplo: python main.py ola.json")
 
 

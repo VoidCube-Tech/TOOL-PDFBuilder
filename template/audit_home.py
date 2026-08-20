@@ -1,3 +1,4 @@
+from config import ADJUST_VALUE
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 from .component import _hex, _draw_tracked_text, _radial_glow, _draw_cube, _glow
@@ -116,7 +117,7 @@ def _draw_cube_scene(c, width, height):
     c.line(tick_x, tick_y, tick_x, tick_y - 14)
     c.restoreState()
 
-    _draw_cube(c, cx, cy, scale + 50, THEME)
+    _draw_cube(c, cx, cy, scale + ADJUST_VALUE, THEME)
 
 
 # ---------------------------------------------------------------------------

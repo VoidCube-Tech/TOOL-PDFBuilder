@@ -181,8 +181,8 @@ def render_analysis_result(
         c.drawString(desc_x, dy, line)
         dy -= SECTION_BODY_LEADING
 
-    cube_scale = width * 0.1
-    _draw_cube(c, width - m - cube_scale * 1.1, panel_top - panel_h + cube_scale * 0.9,
+    cube_scale = width * 0.05
+    _draw_cube(c, width - m - cube_scale * 1.1 - 5, panel_top - panel_h + cube_scale * 0.9 + 16,
                cube_scale, THEME)
 
     cat_top = panel_top - panel_h - 40

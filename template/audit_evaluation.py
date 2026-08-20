@@ -135,9 +135,9 @@ def render_evaluation(c, company_name:str, page_number: int = 2):
     c.line(m, second_y + 30, width - m, second_y + 30)
     c.restoreState()
 
-    cube_scale = width * 0.75
+    cube_scale = width * 0.05
     cube_cx = width - m - cube_scale * 1.3
-    cube_cy = second_y - 46
+    cube_cy = second_y
     c.saveState()
     c.setFillAlpha(0.5)
     _draw_cube(c, cube_cx, cube_cy, cube_scale, THEME)

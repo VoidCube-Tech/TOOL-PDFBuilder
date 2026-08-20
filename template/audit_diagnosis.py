@@ -158,7 +158,7 @@ def render_diagnosis(
     c.line(m, finding_bottom + 6, m, finding_bottom + finding_h - 6)
     c.restoreState()
 
-    cube_scale = width * 0.05
+    cube_scale = width * 0.005
     c.saveState()
     c.setFillAlpha(0.35)
     _draw_cube(c, width - m - cube_scale * 1.3, finding_bottom + cube_scale * 0.9,
