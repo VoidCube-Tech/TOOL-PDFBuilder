@@ -124,22 +124,40 @@ def build_data_from_json(json_path: Path) -> Data:
     )
 
 
-def resolve_json_path() -> list[Path]:
+def resolve_json_paths() -> list[Path]:
+    """Se um arquivo específico for passado por argumento, processa só ele.
+    Caso contrário, processa TODOS os .json encontrados na pasta 'pdf'."""
     if len(sys.argv) > 1:
         candidate = Path(sys.argv[1])
         return [candidate if candidate.is_absolute() else JSON_DIR / candidate]
 
     json_files = sorted(JSON_DIR.glob("*.json"))
-    if len(json_files) == 1:
-        return json_files
     if not json_files:
-        raise FileNotFoundError("Nenhum arquivo JSON encontrado na pasta 'pdf'")
-    raise ValueError("Passe o nome do JSON no comando. Exemplo: python main.py ola.json")
+        raise FileNotFoundError(f"Nenhum arquivo JSON encontrado na pasta '{JSON_DIR}'")
+    return json_files
 
 
 if __name__ == "__main__":
-    json_paths = resolve_json_path()
-    for i, json_path in enumerate(json_paths):
-        data = build_data_from_json(json_path)
-        generate_pdf(data, output_filename=str(json_path.with_suffix(".pdf")))
-        print(f"PDF gerado com sucesso [{i + 1}]: {json_path.with_suffix('.pdf')}")
+    json_paths = resolve_json_paths()
+
+    successes: list[Path] = []
+    failures: list[tuple[Path, Exception]] = []
+
+    for json_path in json_paths:
+        try:
+            data = build_data_from_json(json_path)
+            output_path = json_path.with_suffix(".pdf")
+            generate_pdf(data, output_filename=str(output_path))
+        except Exception as exc:
+            failures.append((json_path, exc))
+            print(f"[ERRO] {json_path.name}: {exc}")
+        else:
+            successes.append(output_path)
+            print(f"[OK] {json_path.name} -> {output_path.name}")
+
+    print()
+    print(f"Concluído: {len(successes)} gerado(s), {len(failures)} com erro.")
+    if failures:
+        print("Arquivos com erro:")
+        for path, exc in failures:
+            print(f"  - {path.name}: {exc}")
