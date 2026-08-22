@@ -8,9 +8,9 @@ from generate_pdf import generate_pdf
 
 ROOT_DIR = Path(__file__).resolve().parent
 
-
 JSON_DIR = ROOT_DIR / "pdf"
 
+print(JSON_DIR)
 
 def _require_string(payload: dict, key: str) -> str:
     value = payload.get(key)
