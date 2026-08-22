@@ -4,7 +4,7 @@ from template.audit_home import render_home
 from template.audit_evaluation import render_evaluation
 from template.audit_analysis_result import render_analysis_result
 from template.audit_diagnosis import render_diagnosis
-from template.audit_real_demand import render_real_demand
+from template.audit_real_demand import render_insight_trend
 from template.audit_suggested_path import render_suggested_path
 from template.audit_next_step import render_next_step
 from template.audit_no_complication import render_no_complication
@@ -49,14 +49,17 @@ def generate_pdf(
         attention_points= data.attention_points
     )
 
-    render_real_demand(
+    render_insight_trend(
         c,
         company_name=data.name,
-        service_name=data.service_name,
-        location=data.location,
-        trend_label=data.trend_label,
+        kicker=data.insight_kicker,
+        title=data.insight_title,
+        intro=data.insight_intro,
         trend_data=data.trend_data,
-        demand_highlight=data.demand_highlight,
+        stat1_label=data.insight_stat1_label,
+        stat1_value=data.insight_stat1_value,
+        stat2_label=data.insight_stat2_label,
+        stat2_value=data.insight_stat2_value,
         interpretation=data.interpretation
     )
 

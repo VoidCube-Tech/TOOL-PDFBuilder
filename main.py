@@ -108,11 +108,14 @@ def build_data_from_json(json_path: Path) -> Data:
         finding_impact=_optional_string(payload, "finding_impact"),
         strengths=_validate_string_list(payload, "strengths"),
         attention_points=_validate_string_list(payload, "attention_points"),
-        service_name=_optional_string(payload, "service_name"),
-        location=_optional_string(payload, "location"),
-        trend_label=_optional_string(payload, "trend_label"),
+        insight_kicker=_optional_string(payload, "insight_kicker") or "INSIGHT",
+        insight_title=_optional_string(payload, "insight_title"),
+        insight_intro=_optional_string(payload, "insight_intro"),
         trend_data=_validate_object_list(payload, "trend_data", ("label", "value")),
-        demand_highlight=_optional_string(payload, "demand_highlight"),
+        insight_stat1_label=_optional_string(payload, "insight_stat1_label"),
+        insight_stat1_value=_optional_string(payload, "insight_stat1_value"),
+        insight_stat2_label=_optional_string(payload, "insight_stat2_label"),
+        insight_stat2_value=_optional_string(payload, "insight_stat2_value"),
         interpretation=_optional_string(payload, "interpretation"),
         now_steps=_validate_object_list(payload, "now_steps", ("title", "description", "effort", "impact")),
         next_steps=_validate_object_list(payload, "next_steps", ("title", "description", "effort", "impact")),
@@ -136,6 +139,7 @@ def resolve_json_path() -> list[Path]:
 
 if __name__ == "__main__":
     json_paths = resolve_json_path()
-    for json_path in json_paths:
+    for i, json_path in enumerate(json_paths):
         data = build_data_from_json(json_path)
         generate_pdf(data, output_filename=str(json_path.with_suffix(".pdf")))
+        print(f"PDF gerado com sucesso [{i + 1}]: {json_path.with_suffix('.pdf')}")

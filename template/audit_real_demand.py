@@ -129,18 +129,29 @@ def _draw_stat_card(c, x, y, w, h, label, value, accent):
     c.drawString(x + pad, y + pad + 2, value)
 
 
-def render_real_demand(
+def render_insight_trend(
     c,
-    service_name: str,
-    location: str,
-    trend_label: str,
+    kicker: str,
+    title: str,
+    intro: str,
     trend_data: list,
-    demand_highlight: str = "",
+    stat1_label: str,
+    stat1_value: str,
+    stat2_label: str,
+    stat2_value: str,
     interpretation: str = "",
     company_name: str = "",
     page_number: int = 5,
     total_pages: int | None = None,
 ):
+    """Página de insight com gráfico de tendência.
+
+    Antes chamada `render_real_demand`, essa página estava amarrada à
+    narrativa de "demanda de busca por serviço". Agora todo o texto
+    (kicker, título, intro, labels dos cards) é recebido pronto, então
+    a mesma página serve para qualquer insight baseado em série temporal
+    (perda de acessos, queda de avaliações, crescimento de tráfego etc.).
+    """
     width, height = c._pagesize
     m = PAGE_MARGIN
 
@@ -162,13 +173,12 @@ def render_real_demand(
     top_y = height - m - 30
     section_y = top_y - 46
 
-    _draw_tracked_text(c, m, section_y, "DEMANDA REAL", FONT_REGULAR,
+    _draw_tracked_text(c, m, section_y, kicker, FONT_REGULAR,
                         KICKER_SIZE, primary, KICKER_TRACKING)
 
-    title_lines = [
-        f'Gente está procurando por "{service_name}"',
-        f"em {location}.",
-    ]
+    # título agora é quebrado dinamicamente a partir de uma única string,
+    # em vez de vir pré-montado em 2 linhas fixas com service_name/location
+    title_lines = _wrap(title, FONT_BOLD, SECTION_TITLE_SIZE, width - 2 * m - 40)
     ty = section_y - 34
     c.setFont(FONT_BOLD, SECTION_TITLE_SIZE)
     for line in title_lines:
@@ -176,10 +186,6 @@ def render_real_demand(
         c.drawString(m, ty, line)
         ty -= SECTION_TITLE_LEADING
 
-    intro = (
-        "O gráfico abaixo mostra como essa procura se comportou no período "
-        "analisado. A questão que importa é quanto dessa demanda chega até você."
-    )
     intro_lines = _wrap(intro, FONT_REGULAR, SECTION_BODY_SIZE, width - 2 * m - 40)
     by = ty - 20
     c.setFont(FONT_REGULAR, SECTION_BODY_SIZE)
@@ -207,11 +213,10 @@ def render_real_demand(
     card_w = (chart_w - card_gap) / 2
 
     _draw_stat_card(c, m, cards_top - card_h, card_w, card_h,
-                     "TENDÊNCIA", trend_label, primary)
+                     stat1_label, stat1_value or "—", primary)
 
-    demand_value = demand_highlight if demand_highlight else "Sem volume estimado"
     _draw_stat_card(c, m + card_w + card_gap, cards_top - card_h, card_w, card_h,
-                     "DEMANDA ESTIMADA", demand_value, tertiary)
+                     stat2_label, stat2_value or "Sem dado disponível", tertiary)
 
     interp_top = cards_top - card_h - 30
     if interpretation:

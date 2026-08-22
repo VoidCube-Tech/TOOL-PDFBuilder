@@ -31,11 +31,18 @@ class Data:
         strengths: list[str] = [],
         attention_points: list[str] = [],
 
-        service_name: str = "",
-        location: str = "",
-        trend_label: str = "",
+        # Página de insight com gráfico de tendência (antes "real demand").
+        # Generalizado: não é mais só sobre demanda de busca, pode ser
+        # perda de acessos, queda de avaliações, qualquer série temporal
+        # relevante pro diagnóstico. Quem monta o Data decide o texto.
+        insight_kicker: str = "INSIGHT",
+        insight_title: str = "",
+        insight_intro: str = "",
         trend_data: list[TREND_TYPE] = [],
-        demand_highlight: str = "",
+        insight_stat1_label: str = "",
+        insight_stat1_value: str = "",
+        insight_stat2_label: str = "",
+        insight_stat2_value: str = "",
         interpretation: str = "",
 
         no_benefits: list[STEP_TYPE] = ["[Benefit 1]", "[Benefit 2]", "[Benefit 3]"],
@@ -54,12 +61,17 @@ class Data:
         self.finding_impact = finding_impact
         self.strengths = strengths
         self.attention_points = attention_points
-        self.service_name = service_name
-        self.location = location
-        self.trend_label = trend_label
+
+        self.insight_kicker = insight_kicker
+        self.insight_title = insight_title
+        self.insight_intro = insight_intro
         self.trend_data = trend_data
-        self.demand_highlight = demand_highlight
+        self.insight_stat1_label = insight_stat1_label
+        self.insight_stat1_value = insight_stat1_value
+        self.insight_stat2_label = insight_stat2_label
+        self.insight_stat2_value = insight_stat2_value
         self.interpretation = interpretation
+
         self.now_steps = now_steps
         self.next_steps = next_steps
         self.future_steps = future_steps

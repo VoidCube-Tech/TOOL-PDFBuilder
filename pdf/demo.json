@@ -25,9 +25,9 @@
     "Baixa frequência de publicações",
     "Falta de integração com WhatsApp"
   ],
-  "service_name": "Consultoria de SEO e Marketing",
-  "location": "São Paulo, SP",
-  "trend_label": "Crescimento de Busca Orgânica",
+  "insight_kicker": "DEMANDA REAL",
+  "insight_title": "Gente está procurando por \"Consultoria de SEO e Marketing\" em São Paulo, SP.",
+  "insight_intro": "O gráfico abaixo mostra como essa procura se comportou no período analisado. A questão que importa é quanto dessa demanda chega até você.",
   "trend_data": [
     {
       "label": "Jan",
@@ -42,7 +42,10 @@
       "value": 2100
     }
   ],
-  "demand_highlight": "Alta demanda por serviços locais na região de atuação.",
+  "insight_stat1_label": "TENDÊNCIA",
+  "insight_stat1_value": "Crescimento de Busca Orgânica",
+  "insight_stat2_label": "DEMANDA ESTIMADA",
+  "insight_stat2_value": "Alta demanda por serviços locais na região de atuação",
   "interpretation": "O mercado apresenta grande potencial não explorado no canal digital.",
   "no_benefits": [
     {
