@@ -1,3 +1,89 @@
+eu quero que me ajude a criar um json igual a esse, quando tiver informações o suficiente gere o json para mim copiar, não quero textos genericos nem com —, maximo de persuação se nao tiver informações suficiente solicite a mim:
+``` JSON
+{
+  "name": "Empresa Exemplo Ltda",
+  "audit_description": "Análise de presença digital e desempenho da marca.",
+  "audit_categories": [
+    {
+      "name": "Presença Digital",
+      "score": 85,
+      "description": "Boa visibilidade nos motores de busca e redes sociais."
+    },
+    {
+      "name": "Desempenho da Marca",
+      "score": 70,
+      "description": "Engajamento médio com necessidade de otimização."
+    }
+  ],
+  "finding_category": "Otimização de SEO",
+  "finding_title": "Oportunidade de Melhoria no Ranking de Busca",
+  "finding_description": "Identificamos que palavras-chave estratégicas não estão sendo exploradas.",
+  "finding_impact": "Perda estimada de 20% no tráfego orgânico potencial.",
+  "strengths": [
+    "Identidade visual consistente",
+    "Bom tempo de carregamento do site"
+  ],
+  "attention_points": [
+    "Baixa frequência de publicações",
+    "Falta de integração com WhatsApp"
+  ],
+  "service_name": "Consultoria de SEO e Marketing",
+  "location": "São Paulo, SP",
+  "trend_label": "Crescimento de Busca Orgânica",
+  "trend_data": [
+    {
+      "label": "Jan",
+      "value": 1200
+    },
+    {
+      "label": "Fev",
+      "value": 1500
+    },
+    {
+      "label": "Mar",
+      "value": 2100
+    }
+  ],
+  "demand_highlight": "Alta demanda por serviços locais na região de atuação.",
+  "interpretation": "O mercado apresenta grande potencial não explorado no canal digital.",
+  "no_benefits": [
+    {
+      "title": "Baixa Conversão de Leads",
+      "description": "Apesar do tráfego, a taxa de conversão é inferior à média do setor.",
+      "effort": "Médio",
+      "impact": "Alto"
+    }
+  ],
+  "now_steps": [
+    {
+      "title": "Otimização de Meta Tags",
+      "description": "Ajustar títulos e descrições das páginas principais.",
+      "effort": "Baixo",
+      "impact": "Alto"
+    }
+  ],
+  "next_steps": [
+    {
+      "title": "Produção de Conteúdo Blog",
+      "description": "Criar 4 artigos mensais focados em palavras-chave do setor.",
+      "effort": "Médio",
+      "impact": "Alto"
+    }
+  ],
+  "future_steps": [
+    {
+      "title": "Campanha de Tráfego Pago",
+      "description": "Expandir alcance com anúncios no Google e Meta.",
+      "effort": "Alto",
+      "impact": "Médio"
+    }
+  ]
+}
+
+```
+
+Seguindo essa regras:
+``` MD
 {
   "name": "Nome da empresa exatamente como aparece no perfil do Google Maps. Ferramenta: Google Maps.",
 
@@ -6,17 +92,17 @@
   "audit_categories": [
     {
       "name": "Encontrabilidade & SEO",
-      "score": "Média das notas 0-100 de: Encontrabilidade (buscar '[serviço] + [cidade]' e verificar se a empresa aparece no Maps e/ou na 1ª página de busca, com dados consistentes com o WhatsApp usado na abordagem), SEO local (mesma busca, verificar posição orgânica) e Concorrência direta (levantar 3-5 concorrentes locais e comparar). Ferramentas: Google Maps, Google Busca.",
+      "score": "Média das notas 0-10 de: Encontrabilidade (buscar '[serviço] + [cidade]' e verificar se a empresa aparece no Maps e/ou na 1ª página de busca, com dados consistentes com o WhatsApp usado na abordagem), SEO local (mesma busca, verificar posição orgânica) e Concorrência direta (levantar 3-5 concorrentes locais e comparar). Ferramentas: Google Maps, Google Busca.",
       "description": "Texto curto interpretando o resultado dessa categoria (ex.: 'boa visibilidade em buscas, mas atrás dos concorrentes'). Redigido a partir das 3 métricas acima, sem ferramenta própria."
     },
     {
       "name": "Credibilidade",
-      "score": "Média das notas 0-100 de: Prova social (nota média + quantidade de avaliações no perfil), Consistência de marca (comparar nome/logo/telefone entre Maps, Instagram e site) e Atendimento/tempo de resposta (verificar se o dono responde avaliações, principalmente as negativas). Ferramentas: Google Maps (perfil da empresa), Instagram, site da empresa (se houver).",
+      "score": "Média das notas 0-10 de: Prova social (nota média + quantidade de avaliações no perfil), Consistência de marca (comparar nome/logo/telefone entre Maps, Instagram e site) e Atendimento/tempo de resposta (verificar se o dono responde avaliações, principalmente as negativas). Ferramentas: Google Maps (perfil da empresa), Instagram, site da empresa (se houver).",
       "description": "Texto curto interpretando o resultado dessa categoria, redigido a partir das 3 métricas acima."
     },
     {
       "name": "Conversão & Técnico",
-      "score": "Média das notas 0-100 de: Canal de conversão direto (verificar WhatsApp Business com selo verde, botão de ação no Maps/Instagram, ou só telefone solto) e Qualidade técnica do site (score Mobile/Performance dividido por 10, ajustado por teste visual manual no celular; métrica N.A. se não houver site). Ferramentas: WhatsApp/Instagram/Maps (inspeção manual), Google PageSpeed Insights (pagespeed.web.dev).",
+      "score": "Média das notas 0-10 de: Canal de conversão direto (verificar WhatsApp Business com selo verde, botão de ação no Maps/Instagram, ou só telefone solto) e Qualidade técnica do site (score Mobile/Performance dividido por 10, ajustado por teste visual manual no celular; métrica N.A. se não houver site). Ferramentas: WhatsApp/Instagram/Maps (inspeção manual), Google PageSpeed Insights (pagespeed.web.dev).",
       "description": "Texto curto interpretando o resultado dessa categoria, redigido a partir das 2 métricas acima."
     }
   ],
@@ -44,3 +130,8 @@
   "next_steps": "Achados de impacto médio/alto + esforço médio, mesma origem, mesma triagem manual.",
   "future_steps": "Achados de impacto menor ou esforço alto, mesma origem, mesma triagem manual."
 }
+```
+
+
+Eu ja tenho essa informações:
+
