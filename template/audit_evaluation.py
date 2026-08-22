@@ -116,12 +116,12 @@ def render_evaluation(c, company_name:str, page_number: int = 2):
     card_h = 128
 
     cards = [
-        ("01", "Presença",
-         "Como sua empresa aparece quando alguém pesquisa pelo serviço que você oferece."),
-        ("02", "Contexto",
-         "Como essa aparição se compara às alternativas que a mesma pessoa também encontra na região."),
-        ("03", "Decisão",
-         "O quanto o que foi encontrado facilita ou atrapalha o passo seguinte, entrar em contato."),
+("01", "Presença",
+ "Como sua empresa aparece na busca pelo serviço que oferece."),
+("02", "Contexto",
+ "Como ela se compara às alternativas encontradas na região."),
+("03", "Decisão",
+ "O quanto o que foi encontrado facilita o contato."),
     ]
     for i, (label, title, body) in enumerate(cards):
         cx = m + i * (card_w + card_gap)
@@ -140,7 +140,7 @@ def render_evaluation(c, company_name:str, page_number: int = 2):
     cube_cy = second_y
     c.saveState()
     c.setFillAlpha(0.5)
-    _draw_cube(c, cube_cx, cube_cy, cube_scale, THEME)
+    _draw_cube(c, cube_cx, cube_cy - 5, cube_scale, THEME)
     c.restoreState()
 
     _draw_tracked_text(c, m, second_y, "POR QUE ISSO IMPORTA", FONT_REGULAR,
