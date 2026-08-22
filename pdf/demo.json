@@ -47,6 +47,8 @@
   "insight_stat2_label": "DEMANDA ESTIMADA",
   "insight_stat2_value": "Alta demanda por serviços locais na região de atuação",
   "interpretation": "O mercado apresenta grande potencial não explorado no canal digital.",
+  "no_title": "Sem complicação, só resultado",
+  "no_description": "Você não precisa entender de tecnologia pra ter um site que funciona — a gente cuida de tudo, do jeito certo.",
   "no_benefits": [
     {
       "title": "Baixa Conversão de Leads",

@@ -120,6 +120,8 @@ def build_data_from_json(json_path: Path) -> Data:
         now_steps=_validate_object_list(payload, "now_steps", ("title", "description", "effort", "impact")),
         next_steps=_validate_object_list(payload, "next_steps", ("title", "description", "effort", "impact")),
         future_steps=_validate_object_list(payload, "future_steps", ("title", "description", "effort", "impact")),
+        no_title=_optional_string(payload, "no_title"),
+        no_description=_optional_string(payload, "no_description"),
         no_benefits=_validate_no_benefits(payload),
     )
 

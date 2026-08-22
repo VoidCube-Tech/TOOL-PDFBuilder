@@ -45,6 +45,8 @@ class Data:
         insight_stat2_value: str = "",
         interpretation: str = "",
 
+        no_title: str = "",
+        no_description: str = "",
         no_benefits: list[STEP_TYPE] = ["[Benefit 1]", "[Benefit 2]", "[Benefit 3]"],
 
         now_steps: list[STEP_TYPE] = [],
@@ -75,9 +77,8 @@ class Data:
         self.now_steps = now_steps
         self.next_steps = next_steps
         self.future_steps = future_steps
-
-        self.no_title = "[Title]"
-        self.no_description = "[Description]"
+        self.no_title = no_title
+        self.no_description = no_description
         self.no_mockup_desktop_path = None
         self.no_mockup_mobile_path = None
         self.no_benefits = no_benefits
