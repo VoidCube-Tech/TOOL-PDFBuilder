@@ -1,5 +1,5 @@
 {
-  "name": "Centro Dermatologico e Estética",
+  "name": "Clinica Samanta Meneguzzi",
   "audit_description": "Análise de presença digital e desempenho da marca.",
   "audit_categories": [
     {
@@ -18,15 +18,15 @@
   "finding_description": "Identificamos que palavras-chave estratégicas não estão sendo exploradas.",
   "finding_impact": "Perda estimada de 20% no tráfego orgânico potencial.",
   "strengths": [
-    "Identidade visual consistente",
-    "Presença nas áreas de atuação"
+    "Boas avaliações online",
+    "Boa presença nas redes sociais"
   ],
   "attention_points": [
-    "Não possui site",
+    "Site não funcional",
     "Falta de integração com WhatsApp"
   ],
   "insight_kicker": "DEMANDA REAL",
-  "insight_title": "Gente está procurando por \"Consultoria de SEO e Marketing\" em Belem, PA.",
+  "insight_title": "Gente está procurando por \"Consultoria de SEO e Marketing\" em Belém, PA.",
   "insight_intro": "O gráfico abaixo mostra como essa procura se comportou no período analisado. A questão que importa é quanto dessa demanda chega até você.",
   "trend_data": [
     {
@@ -47,18 +47,20 @@
   "insight_stat2_label": "DEMANDA ESTIMADA",
   "insight_stat2_value": "Alta demanda por serviços",
   "interpretation": "O mercado apresenta grande potencial não explorado no canal digital.",
+  "no_title": "Sem complicação, só resultado",
+  "no_description": "Você não precisa entender de tecnologia pra ter um site que funciona — a gente cuida de tudo, do jeito certo.",
   "no_benefits": [
     {
-      "title": "Não possui site",
-      "description": "Apesar do tráfego, a taxa de conversão é inferior à média do setor.",
+      "title": "Organização do site",
+      "description": "Melhora a experiência do usuário",
       "effort": "Médio",
       "impact": "Alto"
     }
   ],
   "now_steps": [
     {
-      "title": "Não possui whatsapp integrado",
-      "description": "melhorar a comunicação com clientes através do whatsapp.",
+      "title": "adição de whatsapp integrado",
+      "description": "Ajustar títulos e descrições das páginas principais.",
       "effort": "Baixo",
       "impact": "Alto"
     }
