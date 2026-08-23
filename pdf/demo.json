@@ -4,12 +4,12 @@
   "audit_categories": [
     {
       "name": "Presença Digital",
-      "score": 85,
+      "score": 80,
       "description": "Boa visibilidade nos motores de busca e redes sociais."
     },
     {
       "name": "Desempenho da Marca",
-      "score": 70,
+      "score": 90,
       "description": "Engajamento médio com necessidade de otimização."
     }
   ],
