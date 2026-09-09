@@ -6,12 +6,12 @@ eu quero que me ajude a criar um json igual a esse, quando tiver informações o
   "audit_categories": [
     {
       "name": "Presença Digital",
-      "score": 85,
+      "score": 80,
       "description": "Boa visibilidade nos motores de busca e redes sociais."
     },
     {
       "name": "Desempenho da Marca",
-      "score": 70,
+      "score": 90,
       "description": "Engajamento médio com necessidade de otimização."
     }
   ],
@@ -27,9 +27,9 @@ eu quero que me ajude a criar um json igual a esse, quando tiver informações o
     "Baixa frequência de publicações",
     "Falta de integração com WhatsApp"
   ],
-  "service_name": "Consultoria de SEO e Marketing",
-  "location": "São Paulo, SP",
-  "trend_label": "Crescimento de Busca Orgânica",
+  "insight_kicker": "DEMANDA REAL",
+  "insight_title": "Gente está procurando por \"Consultoria de SEO e Marketing\" em São Paulo, SP.",
+  "insight_intro": "O gráfico abaixo mostra como essa procura se comportou no período analisado. A questão que importa é quanto dessa demanda chega até você.",
   "trend_data": [
     {
       "label": "Jan",
@@ -44,8 +44,13 @@ eu quero que me ajude a criar um json igual a esse, quando tiver informações o
       "value": 2100
     }
   ],
-  "demand_highlight": "Alta demanda por serviços locais na região de atuação.",
+  "insight_stat1_label": "TENDÊNCIA",
+  "insight_stat1_value": "Crescimento de Busca",
+  "insight_stat2_label": "DEMANDA ESTIMADA",
+  "insight_stat2_value": "Alta demanda por serviços",
   "interpretation": "O mercado apresenta grande potencial não explorado no canal digital.",
+  "no_title": "Sem complicação, só resultado",
+  "no_description": "Você não precisa entender de tecnologia pra ter um site que funciona — a gente cuida de tudo, do jeito certo.",
   "no_benefits": [
     {
       "title": "Baixa Conversão de Leads",
@@ -79,7 +84,6 @@ eu quero que me ajude a criar um json igual a esse, quando tiver informações o
     }
   ]
 }
-
 ```
 
 Seguindo essa regras:
